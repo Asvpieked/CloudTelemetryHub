@@ -1,0 +1,248 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "TelemetryApi",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Telemetry": {
+      "post": {
+        "tags": [
+          "Telemetry"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TelemetryRecord"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TelemetryRecord"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TelemetryRecord"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Telemetry/{id}": {
+      "get": {
+        "tags": [
+          "Telemetry"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Telemetry/device/{deviceId}": {
+      "get": {
+        "tags": [
+          "Telemetry"
+        ],
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TelemetryReports/export/{deviceId}": {
+      "post": {
+        "tags": [
+          "TelemetryReports"
+        ],
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TelemetryReports/download": {
+      "get": {
+        "tags": [
+          "TelemetryReports"
+        ],
+        "parameters": [
+          {
+            "name": "blobPath",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/WeatherForecast": {
+      "get": {
+        "tags": [
+          "WeatherForecast"
+        ],
+        "operationId": "GetWeatherForecast",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TelemetryRecord": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "deviceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "temperature": {
+            "type": "number",
+            "format": "double"
+          },
+          "humidity": {
+            "type": "number",
+            "format": "double"
+          },
+          "voltage": {
+            "type": "number",
+            "format": "double"
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "timestampUtc": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeatherForecast": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "temperatureC": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "temperatureF": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Telemetry"
+    },
+    {
+      "name": "TelemetryReports"
+    },
+    {
+      "name": "WeatherForecast"
+    }
+  ]
+}
